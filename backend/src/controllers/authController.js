@@ -2,7 +2,9 @@ const bcrypt = require("bcryptjs");
 const User = require("../models/User");
 const generateToken = require("../utils/generateToken");
 
+// ==========================
 // REGISTER
+// ==========================
 const registerUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -37,7 +39,9 @@ const registerUser = async (req, res, next) => {
   }
 };
 
+// ==========================
 // LOGIN
+// ==========================
 const loginUser = async (req, res, next) => {
   try {
     const { email, password } = req.body;
@@ -60,26 +64,34 @@ const loginUser = async (req, res, next) => {
   }
 };
 
+// ==========================
 // LOGOUT
+// ==========================
 const logoutUser = (req, res) => {
   res.cookie("token", "", {
     httpOnly: true,
     expires: new Date(0),
+    secure: true,      // 🔥 required for production (HTTPS)
+    sameSite: "None",  // 🔥 required for cross-origin cookies
   });
 
   res.json({ message: "Logged out" });
 };
 
-// ✅ NEW — CHECK AUTH (VERY IMPORTANT)
+// ==========================
+// GET CURRENT USER
+// ==========================
 const getMe = (req, res) => {
   res.json({
-    user: req.user,
+    _id: req.user._id,
+    email: req.user.email,
   });
 };
 
+// ==========================
 module.exports = {
   registerUser,
   loginUser,
   logoutUser,
-  getMe, // ✅ ADD THIS
+  getMe,
 };
