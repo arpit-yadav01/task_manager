@@ -7,6 +7,8 @@ Frontend (Vercel):
 https://task-manager-beige-eta.vercel.app
 Backend (Render API):
 https://task-manager-n38k.onrender.com
+loom video url
+https://www.loom.com/share/74a0d2509406422fb0f0382a0251d7fa
 ✨ Features
 User can register and login
 Create projects
