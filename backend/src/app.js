@@ -20,9 +20,21 @@ connectDB();
 
 const app = express();
 
-// ✅ FIXED CORS (VERY IMPORTANT)
+// ✅ FINAL CORS FIX (PRODUCTION READY)
 app.use(cors({
-  origin: "https://task-manager-beige-eta.vercel.app", // 👈 your frontend URL
+  origin: function (origin, callback) {
+    const allowedOrigins = [
+      "https://task-manager-beige-eta.vercel.app",
+      "http://localhost:5173"
+    ];
+
+    // allow requests with no origin (like Postman)
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true,
 }));
 
@@ -34,7 +46,7 @@ app.use("/api/auth", authRoutes);
 app.use("/api/projects", projectRoutes);
 app.use("/api/tasks", taskRoutes);
 
-// Test protected route
+// Test route
 app.get("/api/protected", protect, (req, res) => {
   res.json({
     message: "Protected route accessed successfully",
