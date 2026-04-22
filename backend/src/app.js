@@ -20,22 +20,10 @@ connectDB();
 
 const app = express();
 
-// ✅ FINAL CORS FIX (PRODUCTION READY)
+// ✅ FINAL CORS (FIXED FOR VERCEL + RENDER)
 app.use(cors({
-  origin: function (origin, callback) {
-    const allowedOrigins = [
-      "https://task-manager-beige-eta.vercel.app",
-      "http://localhost:5173"
-    ];
-
-    // allow requests with no origin (like Postman)
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
+  origin: true,            // 🔥 allow all origins (fixes Vercel URL issue)
+  credentials: true,       // 🔥 allow cookies
 }));
 
 app.use(express.json());
